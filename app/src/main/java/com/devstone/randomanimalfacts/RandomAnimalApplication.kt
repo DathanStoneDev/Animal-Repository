@@ -7,6 +7,6 @@ import dagger.hilt.android.HiltAndroidApp
  * Dagger Hilt class where Dagger components are generated.
  */
 @HiltAndroidApp
-class MyApplication : Application() {
+class RandomAnimalApplication : Application() {
 
 }
