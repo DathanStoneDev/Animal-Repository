@@ -10,6 +10,9 @@ interface ZooAnimalDao {
     @Query("SELECT * FROM animals")
     fun getAllAnimalFacts(): Flow<List<AnimalFact>>
 
+    @Query("SELECT * FROM animals WHERE :id=id")
+    suspend fun getAnimalFactById(id: Int): AnimalFact
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAnimalFact(animal: AnimalFact)
 
