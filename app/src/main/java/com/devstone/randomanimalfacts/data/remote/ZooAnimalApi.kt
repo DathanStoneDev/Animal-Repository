@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface ZooAnimalApi {
 
-    @GET("/animals /rand")
+    @GET("/animals/rand")
     suspend fun getAnimalFact(): Response<AnimalFact>
 
 }

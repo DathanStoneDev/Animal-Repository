@@ -62,11 +62,12 @@ class ZooAnimalDaoTest {
     @Test
     fun `should insert an animal fact `() = runBlocking {
 
+        //inserts fact
         zooAnimalDao.insertAnimalFact(animalFact1)
-        zooAnimalDao.insertAnimalFact(animalFact2)
-        zooAnimalDao.insertAnimalFact(animalFact3)
 
         val check = zooAnimalDao.getAnimalFactById(1)
+
+        //checks insertion
         assertThat(check.id, equalTo(1))
     }
 
