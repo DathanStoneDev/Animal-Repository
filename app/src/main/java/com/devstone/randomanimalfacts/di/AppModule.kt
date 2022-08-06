@@ -7,7 +7,7 @@ import com.devstone.randomanimalfacts.data.local.AppDatabase
 import com.devstone.randomanimalfacts.data.local.ZooAnimalRepository
 import com.devstone.randomanimalfacts.data.local.ZooAnimalRepositoryImpl
 import com.devstone.randomanimalfacts.data.remote.ZooAnimalApiRepository
-import com.devstone.randomanimalfacts.data.repository.ZooAnimalApiRepositoryImpl
+import com.devstone.randomanimalfacts.data.remote.ZooAnimalApiRepositoryImpl
 import com.devstone.randomanimalfacts.util.Constants
 import dagger.Module
 import dagger.Provides

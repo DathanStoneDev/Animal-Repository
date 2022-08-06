@@ -27,9 +27,7 @@ class ZooAnimalApiTest {
     @Test
     fun `should get https status OK success (200)` () = runBlocking {
         val response = api.getAnimalFact()
-
         assertThat(response.code(), equalTo(200))
-
     }
 
     @Test

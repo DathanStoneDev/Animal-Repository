@@ -1,5 +1,8 @@
 package com.devstone.randomanimalfacts.presentation.main
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devstone.randomanimalfacts.data.local.ZooAnimalRepository
@@ -19,27 +22,20 @@ class MainViewModel @Inject constructor(
     private val remote: ZooAnimalApiRepository
 ) : ViewModel() {
 
-    fun onEvent(event: ZooAnimalEvent) {
+    var fact by mutableStateOf<AnimalFact?>(null)
+
+    fun onEvent(event: ZooAnimalFactEvent) {
         when(event) {
-            is ZooAnimalEvent.GenerateFact -> {
-                getAnimalFact()
+            is ZooAnimalFactEvent.GenerateFact -> {
+                viewModelScope.launch(Dispatchers.IO){
+                    fact = remote.getAnimalFactFromRemote().data
+                }
             }
-            is ZooAnimalEvent.SaveFact -> {
-                saveFact(event.fact)
+            is ZooAnimalFactEvent.SaveFact -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    local.insertAnimalFact(event.fact)
+                }
             }
         }
     }
-
-    private fun getAnimalFact() {
-        viewModelScope.launch(Dispatchers.IO) {
-            remote.getAnimalFactFromRemote()
-        }
-    }
-
-    private fun saveFact(fact: AnimalFact) {
-        viewModelScope.launch(Dispatchers.IO) {
-            local.insertAnimalFact(fact)
-        }
-    }
-
 }

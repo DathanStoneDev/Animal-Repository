@@ -11,13 +11,13 @@ interface ZooAnimalDao {
     fun getAllAnimalFacts(): Flow<List<AnimalFact>>
 
     @Query("SELECT * FROM animals WHERE :id=id")
-    suspend fun getAnimalFactById(id: Int): AnimalFact
+    suspend fun getAnimalFactById(id: Int): AnimalFact?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAnimalFact(animal: AnimalFact)
 
     @Delete
-    suspend fun deleteAnimalFact(animal:AnimalFact)
+    suspend fun deleteAnimalFact(fact: AnimalFact)
 
     @Query("DELETE FROM animals")
     suspend fun deleteAllFacts()

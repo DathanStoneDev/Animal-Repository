@@ -11,4 +11,20 @@ class ZooAnimalRepositoryImpl @Inject constructor(
     override fun getAllAnimalFactsFromDatabase(): Flow<List<AnimalFact>> {
         return dao.getAllAnimalFacts()
     }
+
+    override suspend fun getAnimalFactById(id: Int): AnimalFact? {
+        return dao.getAnimalFactById(id)
+    }
+
+    override suspend fun insertAnimalFact(animal: AnimalFact) {
+        return dao.insertAnimalFact(animal)
+    }
+
+    override suspend fun deleteAnimalFact(fact: AnimalFact) {
+        return dao.deleteAnimalFact(fact)
+    }
+
+    override suspend fun deleteAllFacts() {
+        return dao.deleteAllFacts()
+    }
 }

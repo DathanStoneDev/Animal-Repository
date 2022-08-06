@@ -8,9 +8,11 @@ interface ZooAnimalRepository {
 
     fun getAllAnimalFactsFromDatabase(): Flow<List<AnimalFact>>
 
+    suspend fun getAnimalFactById(id: Int) : AnimalFact?
+
     suspend fun insertAnimalFact(animal: AnimalFact)
 
-    suspend fun deleteAnimalFact(animal:AnimalFact)
+    suspend fun deleteAnimalFact(fact: AnimalFact)
 
     suspend fun deleteAllFacts()
 

@@ -1,4 +1,4 @@
-package com.devstone.randomanimalfacts.ui.theme
+package com.devstone.randomanimalfacts.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

@@ -68,7 +68,9 @@ class ZooAnimalDaoTest {
         val check = zooAnimalDao.getAnimalFactById(1)
 
         //checks insertion
-        assertThat(check.id, equalTo(1))
+        if (check != null) {
+            assertThat(check.id, equalTo(1))
+        }
     }
 
     @Test

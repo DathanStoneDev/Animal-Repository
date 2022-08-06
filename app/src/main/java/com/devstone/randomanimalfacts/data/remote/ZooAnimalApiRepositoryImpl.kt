@@ -1,8 +1,6 @@
-package com.devstone.randomanimalfacts.data.repository
+package com.devstone.randomanimalfacts.data.remote
 
-import com.devstone.randomanimalfacts.data.remote.ZooAnimalApi
 import com.devstone.randomanimalfacts.data.model.AnimalFact
-import com.devstone.randomanimalfacts.data.remote.ZooAnimalApiRepository
 import com.devstone.randomanimalfacts.util.Resource
 import retrofit2.HttpException
 import javax.inject.Inject
