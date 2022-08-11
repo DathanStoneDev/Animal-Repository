@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun SelectedFactScreen(
-    navController: NavController
+    onPopBackStack: () -> Unit,
 ) {
 
 }

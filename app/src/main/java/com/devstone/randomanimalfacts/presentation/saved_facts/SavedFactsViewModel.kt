@@ -4,7 +4,6 @@ package com.devstone.randomanimalfacts.presentation.saved_facts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devstone.randomanimalfacts.data.local.ZooAnimalRepository
-import com.devstone.randomanimalfacts.presentation.main.ZooAnimalFactEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

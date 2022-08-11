@@ -14,10 +14,18 @@ import com.devstone.randomanimalfacts.presentation.selected_fact.SelectedFactScr
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Routes.MAIN_SCREEN) {
         composable(Routes.MAIN_SCREEN) {
-            MainScreen(navController)
+            MainScreen(onNavigate = {
+                navController.navigate(it.route)
+            })
         }
         composable(Routes.SAVED_FACTS_SCREEN) {
-            SavedFactsScreen(navController)
+            SavedFactsScreen(onPopBackStack = {
+                navController.popBackStack()
+            },
+                onNavigate = {
+                    navController.navigate(it.route)
+                }
+            )
         }
         composable(
             Routes.SELECTED_FACT_SCREEN + "?id={id}",
@@ -28,7 +36,9 @@ fun Navigation(navController: NavHostController) {
                 }
             )
         ) {
-            SelectedFactScreen(navController)
+            SelectedFactScreen(onPopBackStack = {
+                navController.popBackStack()
+            })
         }
     }
 }
