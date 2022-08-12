@@ -32,8 +32,9 @@ https://user-images.githubusercontent.com/73630546/184440662-35043b35-d4c3-4435-
 ### Libraries
 :small_blue_diamond: Retrofit (2.9.0) <br/>
 :small_blue_diamond: Coil (2.1.0) <br/>
-:small_blue_diamond:: Google Fonts (1.2.0-beta01) <br/>
+:small_blue_diamond: Google Fonts (1.2.0-beta01) <br/>
 
-### Testing
+### Testing & architecture
 :small_blue_diamond: JUnit 4 <br/>
+:small_blue_diamond: MVVM
 
