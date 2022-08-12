@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.devstone.randomanimalfacts.presentation.main.MainScreen
+import com.devstone.randomanimalfacts.presentation.home.MainScreen
 import com.devstone.randomanimalfacts.presentation.saved_facts.SavedFactsScreen
 import com.devstone.randomanimalfacts.presentation.selected_fact.SelectedFactScreen
 

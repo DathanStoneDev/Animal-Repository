@@ -1,27 +1,26 @@
 package com.devstone.randomanimalfacts.presentation.shared.component
 
-import android.content.res.Resources
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.devstone.randomanimalfacts.data.model.AnimalFact
-import com.devstone.randomanimalfacts.presentation.main.ZooAnimalFactEvent
-import com.devstone.randomanimalfacts.presentation.ui.theme.AppTheme
+import com.devstone.randomanimalfacts.presentation.home.GenerateFactScreenEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FactCard(
     fact: AnimalFact,
-    onEvent: (ZooAnimalFactEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -36,8 +35,23 @@ fun FactCard(
 
         )
     ) {
-        AsyncImage(model = fact.image_link, contentDescription = null)
-        Spacer(modifier = modifier.padding(top = 15.dp))
+        Spacer(modifier = modifier.padding(top = 5.dp))
+        Box(modifier = modifier
+            .fillMaxWidth()
+            .height(250.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            SubcomposeAsyncImage(
+                model = fact.image_link,
+                contentScale = ContentScale.Inside,
+                contentDescription = null,
+                loading = {
+                    CircularProgressIndicator()
+                },
+                modifier = modifier.clip(RoundedCornerShape(5.dp))
+            )
+        }
+        Spacer(modifier = modifier.padding(top = 10.dp))
         FactCardText(data = fact.name, label = "Name: " )
         FactCardText(data = fact.latin_name, label = "Latin Name: ")
         FactCardText(data = fact.animal_type, label = "Animal Type: ")
@@ -52,10 +66,10 @@ fun FactCard(
             IconButton(
                 onClick = {
                     favorite = if (favorite) {
-                        onEvent(ZooAnimalFactEvent.FavoriteFact(fact))
+                        GenerateFactScreenEvent.FavoriteFact(fact)
                         !favorite
                     } else {
-                        onEvent(ZooAnimalFactEvent.RemoveFavoriteFact(fact))
+                        GenerateFactScreenEvent.RemoveFavoriteFact(fact)
                         !favorite
                     }
                 },
@@ -90,7 +104,7 @@ fun FactCardPreview() {
             "Hylobates syndactylus","2.00", "1.90", "23",
             "Siamang", "23", "20"
         ),
-        onEvent = {})
+    )
 }
 
 @Composable

@@ -1,4 +1,4 @@
-package com.devstone.randomanimalfacts.presentation.main
+package com.devstone.randomanimalfacts.presentation.home
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,26 +17,33 @@ import javax.inject.Inject
  * View model for main landing page.
  */
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class GenerateFactViewModel @Inject constructor(
     private val local: ZooAnimalRepository,
     private val remote: ZooAnimalApiRepository
 ) : ViewModel() {
 
     var fact by mutableStateOf<AnimalFact?>(null)
 
-    fun onEvent(event: ZooAnimalFactEvent) {
+    init {
+        viewModelScope.launch {
+            fact = remote.getAnimalFactFromRemote().data
+        }
+    }
+
+
+    fun onEvent(event: GenerateFactScreenEvent) {
         when(event) {
-            is ZooAnimalFactEvent.GenerateFact -> {
+            is GenerateFactScreenEvent.GenerateFact -> {
                 viewModelScope.launch(Dispatchers.IO){
                     fact = remote.getAnimalFactFromRemote().data
                 }
             }
-            is ZooAnimalFactEvent.FavoriteFact -> {
+            is GenerateFactScreenEvent.FavoriteFact -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     local.insertAnimalFact(event.fact)
                 }
             }
-            is ZooAnimalFactEvent.RemoveFavoriteFact -> {
+            is GenerateFactScreenEvent.RemoveFavoriteFact -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     local.deleteAnimalFact(event.fact)
                 }

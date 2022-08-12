@@ -17,7 +17,13 @@ fun TopAppBar(title: String,
 ) {
     SmallTopAppBar(
         modifier = Modifier,
-        title = { Text(title) },
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.primary
+                    )
+                },
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
                 Icon(
