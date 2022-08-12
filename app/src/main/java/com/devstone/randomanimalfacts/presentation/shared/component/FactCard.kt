@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -21,36 +21,52 @@ fun FactCard(
     modifier: Modifier = Modifier
 ) {
 
+    var favorite by remember {mutableStateOf(false)}
+
     Card(
         modifier = modifier
-            .size(width = 300.dp, height = 400.dp),
+            .size(width = 350.dp, height = 600.dp),
         shape = CardDefaults.elevatedShape,
         colors = CardDefaults.cardColors()
     ) {
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
-            Column() {
-                AsyncImage(model = fact.image_link, contentDescription = null)
-               Row {
-                   IconButton(onClick = {
-                       onEvent(ZooAnimalFactEvent.SaveFact(fact))
-                   }) {
-                       Icon(imageVector = Icons.Outlined.Favorite, contentDescription = "save")
-                   }
-               }
-                Text(text = fact.name)
-                Text(text = fact.latin_name)
-                Text(text = fact.animal_type)
-                Text(text = fact.diet)
-                Text(text = fact.weight_min)
-                Text(text = fact.weight_max)
-                Text(text = fact.geo_range)
-                Text(text = fact.active_time)
-                Text(text = fact.habitat)
-                Text(text = fact.length_min)
-                Text(text = fact.length_max)
+        AsyncImage(model = fact.image_link, contentDescription = null)
+        Spacer(modifier = modifier.padding(top = 15.dp))
+        FactCardText(data = "Name: " + fact.name)
+        FactCardText(data = "Latin Name: " + fact.latin_name)
+        FactCardText(data = "Animal Type: " + fact.animal_type)
+        FactCardText(data = "Location: " + fact.geo_range)
+        FactCardText(data = "Habitat: " + fact.habitat)
+        FactCardText(data = "Active Time: " + fact.active_time)
+        FactCardText(data = "Diet: " + fact.diet)
+        FactCardText(data = "Weight: " + fact.weight_min + " - " + fact.weight_max + " pounds")
+        FactCardText(data = "Length: " + fact.length_min + " - " + fact.length_max + " feet")
+        Spacer(modifier = modifier.weight(1f))
+        Row (){
+            IconButton(
+                onClick = {
+                    favorite = if (favorite) {
+                        onEvent(ZooAnimalFactEvent.FavoriteFact(fact))
+                        !favorite
+                    } else {
+                        onEvent(ZooAnimalFactEvent.RemoveFavoriteFact(fact))
+                        !favorite
+                    }
+                },
+                modifier = modifier.weight(1f)
+            ) {
+                if (favorite) {
+                    Icon(
+                        imageVector = Icons.Outlined.Favorite,
+                        contentDescription = "save",
+                        tint = Color.Red
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.Favorite,
+                        contentDescription = "save",
+                        tint = Color.Black
+                    )
+                }
             }
         }
     }
@@ -68,4 +84,12 @@ fun FactCardPreview() {
             "Siamang", "23", "20"
         ),
         onEvent = {})
+}
+
+@Composable
+fun FactCardText(data: String) {
+    Text(
+        text = data,
+        modifier = Modifier.padding(start = 5.dp, top = 3.dp),
+    )
 }

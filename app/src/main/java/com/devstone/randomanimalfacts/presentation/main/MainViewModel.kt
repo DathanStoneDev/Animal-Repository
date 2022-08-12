@@ -31,9 +31,14 @@ class MainViewModel @Inject constructor(
                     fact = remote.getAnimalFactFromRemote().data
                 }
             }
-            is ZooAnimalFactEvent.SaveFact -> {
+            is ZooAnimalFactEvent.FavoriteFact -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     local.insertAnimalFact(event.fact)
+                }
+            }
+            is ZooAnimalFactEvent.RemoveFavoriteFact -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    local.deleteAnimalFact(event.fact)
                 }
             }
         }
