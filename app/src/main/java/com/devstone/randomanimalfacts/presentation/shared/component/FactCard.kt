@@ -1,5 +1,6 @@
 package com.devstone.randomanimalfacts.presentation.shared.component
 
+import android.content.res.Resources
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
@@ -7,11 +8,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.devstone.randomanimalfacts.data.model.AnimalFact
 import com.devstone.randomanimalfacts.presentation.main.ZooAnimalFactEvent
+import com.devstone.randomanimalfacts.presentation.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,19 +31,22 @@ fun FactCard(
         modifier = modifier
             .size(width = 350.dp, height = 600.dp),
         shape = CardDefaults.elevatedShape,
-        colors = CardDefaults.cardColors()
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+
+        )
     ) {
         AsyncImage(model = fact.image_link, contentDescription = null)
         Spacer(modifier = modifier.padding(top = 15.dp))
-        FactCardText(data = "Name: " + fact.name)
-        FactCardText(data = "Latin Name: " + fact.latin_name)
-        FactCardText(data = "Animal Type: " + fact.animal_type)
-        FactCardText(data = "Location: " + fact.geo_range)
-        FactCardText(data = "Habitat: " + fact.habitat)
-        FactCardText(data = "Active Time: " + fact.active_time)
-        FactCardText(data = "Diet: " + fact.diet)
-        FactCardText(data = "Weight: " + fact.weight_min + " - " + fact.weight_max + " pounds")
-        FactCardText(data = "Length: " + fact.length_min + " - " + fact.length_max + " feet")
+        FactCardText(data = fact.name, label = "Name: " )
+        FactCardText(data = fact.latin_name, label = "Latin Name: ")
+        FactCardText(data = fact.animal_type, label = "Animal Type: ")
+        FactCardText(data = fact.geo_range, label = "Location: ")
+        FactCardText(data = fact.habitat, label = "Habitat: ")
+        FactCardText(data = fact.active_time, label = "Active Time: " )
+        FactCardText(data = fact.diet, label = "Diet: ")
+        FactCardText(data = fact.weight_min + " - " + fact.weight_max + " pounds", label = "Weight: ")
+        FactCardText(data = fact.length_min + " - " + fact.length_max + " feet", label = "Length: ")
         Spacer(modifier = modifier.weight(1f))
         Row (){
             IconButton(
@@ -57,14 +64,14 @@ fun FactCard(
                 if (favorite) {
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
-                        contentDescription = "save",
+                        contentDescription = "favorite",
                         tint = Color.Red
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
-                        contentDescription = "save",
-                        tint = Color.Black
+                        contentDescription = "not favorite",
+                        tint = MaterialTheme.colorScheme.background
                     )
                 }
             }
@@ -87,9 +94,19 @@ fun FactCardPreview() {
 }
 
 @Composable
-fun FactCardText(data: String) {
-    Text(
-        text = data,
-        modifier = Modifier.padding(start = 5.dp, top = 3.dp),
-    )
+fun FactCardText(label: String, data: String) {
+    Row(modifier = Modifier.padding(start = 5.dp, top = 3.dp)) {
+        Text(
+            text = label,
+            color = MaterialTheme.colorScheme.tertiary,
+            style = MaterialTheme.typography.labelSmall
+
+        )
+        Text(
+            text = data,
+            color = MaterialTheme.colorScheme.tertiary,
+            style = MaterialTheme.typography.bodyLarge
+
+        )
+    }
 }

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.devstone.randomanimalfacts.presentation.ui.theme.RandomAnimalFactsTheme
+import com.devstone.randomanimalfacts.presentation.ui.theme.AppTheme
 import com.devstone.randomanimalfacts.util.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-            RandomAnimalFactsTheme {
+            AppTheme {
                 Navigation(navController)
             }
         }
