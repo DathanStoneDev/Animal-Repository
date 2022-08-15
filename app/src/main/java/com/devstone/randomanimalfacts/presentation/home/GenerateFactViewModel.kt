@@ -8,8 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.devstone.randomanimalfacts.data.local.ZooAnimalRepository
 import com.devstone.randomanimalfacts.data.model.AnimalFact
 import com.devstone.randomanimalfacts.data.remote.ZooAnimalApiRepository
+import com.devstone.randomanimalfacts.util.UiEvent
+import com.devstone.randomanimalfacts.util.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +27,9 @@ class GenerateFactViewModel @Inject constructor(
 ) : ViewModel() {
 
     var fact by mutableStateOf<AnimalFact?>(null)
+
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -48,6 +55,15 @@ class GenerateFactViewModel @Inject constructor(
                     local.deleteAnimalFact(event.fact)
                 }
             }
+            is GenerateFactScreenEvent.GoToSavedFactsClick -> {
+                sendUiEvent(UiEvent.Navigate(Routes.SAVED_FACTS_SCREEN))
+            }
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }
