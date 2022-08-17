@@ -6,6 +6,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.devstone.randomanimalfacts.presentation.home.GenerateFactScreenEvent
+import com.devstone.randomanimalfacts.util.UiEvent
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -13,7 +15,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 fun TopAppBar(title: String,
               actionIcon: ImageVector,
               actionDes: String?,
-              onBackPressed: ()-> Unit
+              onBackPressed: ()-> Unit,
+              onNavigate: () -> Unit
 ) {
     SmallTopAppBar(
         modifier = Modifier,
@@ -33,7 +36,7 @@ fun TopAppBar(title: String,
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onNavigate ) {
                 Icon(
                     imageVector = actionIcon,
                     contentDescription = actionDes

@@ -2,6 +2,7 @@ package com.devstone.randomanimalfacts.presentation.home
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,14 +27,15 @@ class GenerateFactViewModel @Inject constructor(
     private val remote: ZooAnimalApiRepository
 ) : ViewModel() {
 
-    var fact by mutableStateOf<AnimalFact?>(null)
+    var animalFact by mutableStateOf<AnimalFact?>(null)
+    var toggleFavorite by mutableStateOf(false)
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch {
-            fact = remote.getAnimalFactFromRemote().data
+            animalFact = remote.getAnimalFactFromRemote().data
         }
     }
 
@@ -42,17 +44,21 @@ class GenerateFactViewModel @Inject constructor(
         when(event) {
             is GenerateFactScreenEvent.GenerateFact -> {
                 viewModelScope.launch(Dispatchers.IO){
-                    fact = remote.getAnimalFactFromRemote().data
+                    toggleFavorite = false
+                    animalFact = remote.getAnimalFactFromRemote().data
                 }
             }
-            is GenerateFactScreenEvent.FavoriteFact -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    local.insertAnimalFact(event.fact)
-                }
-            }
-            is GenerateFactScreenEvent.RemoveFavoriteFact -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    local.deleteAnimalFact(event.fact)
+            is GenerateFactScreenEvent.ToggleFavoriteClick -> {
+                if (toggleFavorite) {
+                    toggleFavorite = !toggleFavorite
+                    viewModelScope.launch {
+                        local.deleteAnimalFact(event.fact)
+                    }
+                } else {
+                    viewModelScope.launch {
+                        toggleFavorite = !toggleFavorite
+                        local.insertAnimalFact(event.fact)
+                    }
                 }
             }
             is GenerateFactScreenEvent.GoToSavedFactsClick -> {

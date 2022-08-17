@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.devstone.randomanimalfacts.data.model.AnimalFact
@@ -21,10 +20,10 @@ import com.devstone.randomanimalfacts.presentation.home.GenerateFactScreenEvent
 @Composable
 fun FactCard(
     fact: AnimalFact,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEvent: (GenerateFactScreenEvent) -> Unit,
+    favorite: Boolean,
 ) {
-
-    var favorite by remember {mutableStateOf(false)}
 
     Card(
         modifier = modifier
@@ -65,13 +64,7 @@ fun FactCard(
         Row (){
             IconButton(
                 onClick = {
-                    favorite = if (favorite) {
-                        GenerateFactScreenEvent.FavoriteFact(fact)
-                        !favorite
-                    } else {
-                        GenerateFactScreenEvent.RemoveFavoriteFact(fact)
-                        !favorite
-                    }
+                    onEvent(GenerateFactScreenEvent.ToggleFavoriteClick(fact))
                 },
                 modifier = modifier.weight(1f)
             ) {
@@ -93,19 +86,7 @@ fun FactCard(
     }
 }
 
-@Preview
-@Composable
-fun FactCardPreview() {
-    FactCard(
-        fact = AnimalFact(
-            "Diurnal", "Mammal", "Primarily fruit and leaves, some invertebrates",
-            "Malaysia and Sumatra", "Tropical rainforest", 3,
-            "https://upload.wikimedia.org/wikipedia/commons/a/a4/DPPP_5348.jpg",
-            "Hylobates syndactylus","2.00", "1.90", "23",
-            "Siamang", "23", "20"
-        ),
-    )
-}
+
 
 @Composable
 fun FactCardText(label: String, data: String) {

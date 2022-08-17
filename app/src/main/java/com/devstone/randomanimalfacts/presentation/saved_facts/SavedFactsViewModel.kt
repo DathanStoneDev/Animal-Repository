@@ -17,6 +17,10 @@ class SavedFactsViewModel @Inject constructor(
 
     val savedFacts = local.getAllAnimalFactsFromDatabase()
 
+    init {
+
+    }
+
 
     fun onEvent(event: SavedAnimalFactEvent) {
         when(event) {

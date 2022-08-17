@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,7 +21,13 @@ fun MainScreen(
     viewModel: GenerateFactViewModel = hiltViewModel()
 ) {
 
-
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when(event) {
+                is UiEvent.Navigate -> onNavigate(event)
+            }
+        }
+    }
 
     Surface (
         modifier = Modifier.fillMaxSize(),
@@ -32,11 +39,16 @@ fun MainScreen(
             TopAppBar(
                 title = "Random Animal Facts",
                 actionIcon = Icons.Default.List,
-                actionDes = "Saved Facts") {
-
-            }
-            if (viewModel.fact != null) {
-                FactCard(fact = viewModel.fact!!)
+                actionDes = "Saved Facts",
+                onNavigate = { viewModel.onEvent(GenerateFactScreenEvent.GoToSavedFactsClick) },
+                onBackPressed = {}
+            )
+            if (viewModel.animalFact != null) {
+                FactCard(
+                    fact = viewModel.animalFact!!,
+                    onEvent = viewModel::onEvent,
+                    favorite = viewModel.toggleFavorite
+                )
             }
             Spacer(modifier = Modifier.height(10.dp))
             Button(onClick = { viewModel.onEvent(GenerateFactScreenEvent.GenerateFact) }){
