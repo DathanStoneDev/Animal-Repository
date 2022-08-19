@@ -8,6 +8,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,15 @@ fun SavedFactsScreen(
 ) {
 
     val savedFacts = viewModel.savedFacts.collectAsState(initial = emptyList());
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when(event) {
+                is UiEvent.Navigate -> onNavigate(event)
+            }
+        }
+    }
+
     
     Surface (
         modifier = Modifier.fillMaxSize(),
@@ -41,6 +51,8 @@ fun SavedFactsScreen(
                 FactListItem(
                     animalName = fact.name,
                     imgLink = fact.image_link,
+                    id = fact.id,
+                    onFactClick = viewModel::onEvent
                 )
             }
         }

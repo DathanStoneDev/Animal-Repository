@@ -21,7 +21,7 @@ import com.devstone.randomanimalfacts.presentation.home.GenerateFactScreenEvent
 fun FactCard(
     fact: AnimalFact,
     modifier: Modifier = Modifier,
-    onEvent: (GenerateFactScreenEvent) -> Unit,
+    onEvent: ((GenerateFactScreenEvent) -> Unit?)?,
     favorite: Boolean,
 ) {
 
@@ -64,7 +64,9 @@ fun FactCard(
         Row (){
             IconButton(
                 onClick = {
-                    onEvent(GenerateFactScreenEvent.ToggleFavoriteClick(fact))
+                    if (onEvent != null) {
+                        onEvent(GenerateFactScreenEvent.ToggleFavoriteClick(fact))
+                    }
                 },
                 modifier = modifier.weight(1f)
             ) {

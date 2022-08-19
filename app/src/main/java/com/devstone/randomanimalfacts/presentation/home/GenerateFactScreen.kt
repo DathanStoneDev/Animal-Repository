@@ -55,8 +55,6 @@ fun MainScreen(
                 Text(text = "Generate New Fact")
             }
         }
-
-
     }
 
 

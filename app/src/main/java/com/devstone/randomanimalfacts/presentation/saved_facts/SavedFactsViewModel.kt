@@ -4,8 +4,12 @@ package com.devstone.randomanimalfacts.presentation.saved_facts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devstone.randomanimalfacts.data.local.ZooAnimalRepository
+import com.devstone.randomanimalfacts.util.UiEvent
+import com.devstone.randomanimalfacts.util.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,7 +18,8 @@ class SavedFactsViewModel @Inject constructor(
     private val local: ZooAnimalRepository
 ) : ViewModel() {
 
-
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
     val savedFacts = local.getAllAnimalFactsFromDatabase()
 
     init {
@@ -30,8 +35,8 @@ class SavedFactsViewModel @Inject constructor(
                 }
             }
             is SavedAnimalFactEvent.OnSelectAnimalFact -> {
-                viewModelScope.launch {
-                    //send animal fact to selected page
+                viewModelScope.launch (Dispatchers.IO){
+                    sendUiEvent(UiEvent.Navigate(Routes.SELECTED_FACT_SCREEN + "?id=${event.id}"))
                 }
             }
             is SavedAnimalFactEvent.OnDeleteAllAnimalFacts -> {
@@ -42,6 +47,10 @@ class SavedFactsViewModel @Inject constructor(
         }
     }
 
-
+    private fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
+        }
+    }
 
 }
